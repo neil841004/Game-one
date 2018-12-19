@@ -140,71 +140,100 @@ public class KnightController : MonoBehaviour
             attack = true;
             combo = 1;
             runSpeed = 0;
+            smooth = 2f;
+        }
+        if (info.IsName("frontattack") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 7);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 1;
+        }
+        if (info.IsName("backattack") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 7);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 1;
+        }
+        if (info.IsName("rightattack") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 1;
+        }
+        if (info.IsName("leftattack") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 1;
         }
         // combo2
         if (Input.GetKeyDown(KeyCode.X) && combo == 1 && info.normalizedTime > 0.4f && (info.IsName("frontattack") || (info.IsName("leftattack") || (info.IsName("rightattack") || (info.IsName("backattack"))))))
         {
             combo = 2;
-            smooth = 2f;
+            smooth = 1.7f;
         }
         if (info.IsName("frontattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 18);
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 15);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
-            smooth -= 0.3f;
+            smooth -= 0.2f;
             combo = 2;
         }
         if (info.IsName("backattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 18);
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 15);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
-            smooth -= 0.3f;
+            smooth -= 0.2f;
             combo = 2;
         }
         if (info.IsName("rightattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+            Vector3 a3 = new Vector3(transform.position.x + 10, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
-            smooth -= 0.3f;
+            smooth -= 0.2f;
             combo = 2;
         }
         if (info.IsName("leftattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+            Vector3 a3 = new Vector3(transform.position.x - 10, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
-            smooth -= 0.3f;
+            smooth -= 0.2f;
             combo = 2;
         }
         // combo3
-        if (Input.GetKeyDown(KeyCode.X) && combo == 2 && info.normalizedTime > 0.4f && (info.IsName("frontattack2") || (info.IsName("leftattack2") || (info.IsName("rightattack2") || (info.IsName("backattack2"))))))
+        if (Input.GetKeyDown(KeyCode.X) && combo == 2 && info.normalizedTime > 0.5f && (info.IsName("frontattack2") || (info.IsName("leftattack2") || (info.IsName("rightattack2") || (info.IsName("backattack2"))))))
         {
             combo = 3;
-            smooth = 2f;
+            smooth = 2.1f;
         }
         if (info.IsName("frontattack3") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 14);
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 18);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 3;
         }
         if (info.IsName("backattack3") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 14);
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 18);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 3;
         }
         if (info.IsName("rightattack3") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+            Vector3 a3 = new Vector3(transform.position.x + 14, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 3;
         }
         if (info.IsName("leftattack3") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+            Vector3 a3 = new Vector3(transform.position.x - 14, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 3;
@@ -257,7 +286,7 @@ public class KnightController : MonoBehaviour
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(2);
         if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -267,7 +296,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -277,7 +306,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -287,7 +316,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -297,7 +326,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -307,7 +336,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -318,7 +347,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;
@@ -328,7 +357,7 @@ public class KnightController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
+            if ((Input.GetKeyDown(KeyCode.Z)) && roll == false && isGround)
             {
                 Physics.IgnoreLayerCollision(10, 11);
                 roll = true;

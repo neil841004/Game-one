@@ -23,6 +23,7 @@ public class MonsterAction : MonoBehaviour
     Vector3 s3;
     bool safe;
     bool charInvincible;
+    int charCombo;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -33,6 +34,7 @@ public class MonsterAction : MonoBehaviour
     {
         charInvincible = GameObject.FindWithTag("Player").GetComponent<KnightController>().invincible;
         safe = GameObject.FindWithTag("Player").GetComponent<KnightController>().safeTime;
+        charCombo = GameObject.FindWithTag("Player").GetComponent<KnightController>().combo;
         if (aiState == true)
         {
             aiX = Random.Range(-3, 3);
@@ -64,7 +66,7 @@ public class MonsterAction : MonoBehaviour
     {
         if (charAttack) { return; }
         charAttack = true;
-        GetComponent<Rigidbody>().velocity = -distance * backRange;
+        GetComponent<Rigidbody>().velocity = -distance * backRange * (0.7f + charCombo*0.2f);
         Invoke("EndCharAttack", 0.5f);
     }
     void EndCharAttack()

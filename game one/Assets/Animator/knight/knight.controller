@@ -1699,7 +1699,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combo
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: lAttack
+    m_ConditionEvent: lWalk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102551806789267946}
@@ -4210,7 +4210,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: backattack3
-  m_Speed: 0.7
+  m_Speed: 0.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101429430583068804}
@@ -4236,7 +4236,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: frontattack3
-  m_Speed: 0.7
+  m_Speed: 0.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101359213706805928}
@@ -4697,7 +4697,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: leftattack3
-  m_Speed: 0.7
+  m_Speed: 0.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101010725808557532}
@@ -4749,7 +4749,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: rightattack3
-  m_Speed: 0.7
+  m_Speed: 0.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101233545765081192}
