@@ -5,13 +5,15 @@ using UnityEngine;
 public class KnightController : MonoBehaviour
 {
 
-    bool fWalk;
+    bool fWalk = true;
     bool bWalk = false;
     bool rWalk = false;
     bool lWalk = false;
     bool rAttack = false;
     bool lAttack = false;
     bool fAttack = false;
+    bool fAttack2 = false;
+    bool fAttack3 = false;
     bool bAttack = false;
     bool froll = false;
     bool broll = false;
@@ -34,7 +36,8 @@ public class KnightController : MonoBehaviour
     public bool safeTime = false;
     public bool invincible = false;
     public float invincibleTime = 0.4f;
-
+    public int combo = 0;
+    float smooth;
     float dropScale;
     // Use this for initialization
     void Awake()
@@ -58,7 +61,8 @@ public class KnightController : MonoBehaviour
             Move();
         }
         Drop();
-        if(isGround){
+        if (isGround)
+        {
             Roll();
             RollMove();
         }
@@ -69,6 +73,7 @@ public class KnightController : MonoBehaviour
         animator.SetBool("rAttack", rAttack);
         animator.SetBool("lAttack", lAttack);
         animator.SetBool("fAttack", fAttack);
+        animator.SetInteger("combo", combo);
         animator.SetBool("bAttack", bAttack);
         animator.SetBool("attack", attack);
     }
@@ -102,13 +107,13 @@ public class KnightController : MonoBehaviour
             rWalk = false;
             lWalk = false;
         }
-        if (!Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
-        {
-            fWalk = false;
-            bWalk = false;
-            rWalk = false;
-            lWalk = false;
-        }
+        // if (!Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+        // {
+        //     fWalk = false;
+        //     bWalk = false;
+        //     rWalk = false;
+        //     lWalk = false;
+        // }
         v3 = new Vector3(Input.GetAxis("Horizontal"), 0, (float)(Input.GetAxis("Vertical") * 1.5f));
         transform.Translate(v3 * Time.deltaTime * runSpeed);
     }
@@ -119,50 +124,88 @@ public class KnightController : MonoBehaviour
             isGround = true;
         }
     }
-    void OnCollisionExit(Collision co) {
-           if (co.gameObject.tag == "Ground")
+    void OnCollisionExit(Collision co)
+    {
+        if (co.gameObject.tag == "Ground")
         {
             isGround = false;
-        }     
+        }
     }
     void Attack()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        rAttack = false;
-        lAttack = false;
-        fAttack = false;
-        bAttack = false;
-        if (Input.GetKeyDown(KeyCode.W))
+        //combo1
+        if (Input.GetKeyDown(KeyCode.X) && combo == 0)
         {
-            bAttack = true;
             attack = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            fAttack = true;
-            attack = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            rAttack = true;
-            attack = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            lAttack = true;
-            attack = true;
-        }
-        if (info.IsName("rightattack") || info.IsName("leftattack") || info.IsName("backattack") || info.IsName("frontattack"))
-        {
+            combo = 1;
             runSpeed = 0;
         }
-        if (!(info.IsName("rightattack") || info.IsName("leftattack") || info.IsName("backattack") || info.IsName("frontattack")) && !(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)))
+        // combo2
+        if (Input.GetKeyDown(KeyCode.X) && combo == 1 && info.normalizedTime > 0.4f && (info.IsName("frontattack") || (info.IsName("leftattack") || (info.IsName("rightattack") || (info.IsName("backattack"))))))
         {
-            runSpeed = 7;
-            attack = false;
-            safeTime = false;
+            combo = 2;
+            smooth = 2f;
         }
-
+        if (info.IsName("frontattack2") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 18);
+            // a3 = a3.normalized;
+            // transform.Translate(a3 * Time.deltaTime * 20);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 2;
+        }
+        if (info.IsName("backattack2") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 18);
+            // a3 = a3.normalized;
+            // transform.Translate(a3 * Time.deltaTime * 20);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 2;
+        }
+        if (info.IsName("rightattack2") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x+12, transform.position.y, transform.position.z);
+            // a3 = a3.normalized;
+            // transform.Translate(a3 * Time.deltaTime * 20);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 2;
+        }
+        if (info.IsName("leftattack2") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x-12, transform.position.y, transform.position.z);
+            // a3 = a3.normalized;
+            // transform.Translate(a3 * Time.deltaTime * 20);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 2;
+        }
+        //combo3
+        // if (Input.GetKeyDown(KeyCode.X) && combo == 2 && info.normalizedTime > 0.5f)
+        // {
+        //     combo = 3;
+        //     smooth = 2.2f;
+        // }
+        // if (info.IsName("frontattack3"))
+        // {
+        //     Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 14);
+        //     // a3 = a3.normalized;
+        //     // transform.Translate(a3 * Time.deltaTime * 20);
+        //     transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+        //     smooth -= 0.2f;
+        //     combo = 3;
+        // }
+    }
+    void EndAttack()
+    {
+        runSpeed = 7;
+        attack = false;
+        safeTime = false;
+        combo = 0;
+        animator.SetInteger("combo", combo);
     }
     public void Damage()
     {
@@ -193,7 +236,7 @@ public class KnightController : MonoBehaviour
     void Roll()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(2);
-        if (Input.GetKey(KeyCode.LeftArrow)&&Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow))
         {
             if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
             {
@@ -203,7 +246,7 @@ public class KnightController : MonoBehaviour
                 animator.SetBool("roll", roll);
             }
         }
-        if (Input.GetKey(KeyCode.RightArrow)&&Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
         {
             if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
             {
@@ -213,7 +256,7 @@ public class KnightController : MonoBehaviour
                 animator.SetBool("roll", roll);
             }
         }
-        if (Input.GetKey(KeyCode.LeftArrow)&&Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow))
         {
             if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
             {
@@ -223,7 +266,7 @@ public class KnightController : MonoBehaviour
                 animator.SetBool("roll", roll);
             }
         }
-        if (Input.GetKey(KeyCode.RightArrow)&&Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow))
         {
             if ((Input.GetKeyDown(KeyCode.Space)) && roll == false && isGround)
             {
@@ -252,7 +295,7 @@ public class KnightController : MonoBehaviour
                 broll = true;
                 animator.SetBool("roll", roll);
             }
-            
+
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -275,56 +318,57 @@ public class KnightController : MonoBehaviour
             }
         }
     }
-    void RollMove(){
-            if (froll)
-            {
-                Vector3 r3 = new Vector3(0, 0, transform.position.z - 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 13);
-                
-            }
-            if (broll)
-            {
-                Vector3 r3 = new Vector3(0, 0, transform.position.z + 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 13);
-            }
-            if (rroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x + 9, 0, 0);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 9);
-            }
-            if (lroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x - 9, 0, 0);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 9);
-            }
-            if (lbroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x - 9, 0, transform.position.z + 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 11);
-            }
-            if (rbroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x + 9, 0, transform.position.z + 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 11);
-            }
-            if (lfroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x - 9, 0, transform.position.z - 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 11);
-            }
-            if (rfroll)
-            {
-                Vector3 r3 = new Vector3(transform.position.x + 9, 0, transform.position.z - 9);
-                r3 = r3.normalized;
-                transform.Translate(r3 * Time.deltaTime * 11);
-            }
+    void RollMove()
+    {
+        if (froll)
+        {
+            Vector3 r3 = new Vector3(0, 0, transform.position.z - 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 13);
+
+        }
+        if (broll)
+        {
+            Vector3 r3 = new Vector3(0, 0, transform.position.z + 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 13);
+        }
+        if (rroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x + 9, 0, 0);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 9);
+        }
+        if (lroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x - 9, 0, 0);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 9);
+        }
+        if (lbroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x - 9, 0, transform.position.z + 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 11);
+        }
+        if (rbroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x + 9, 0, transform.position.z + 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 11);
+        }
+        if (lfroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x - 9, 0, transform.position.z - 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 11);
+        }
+        if (rfroll)
+        {
+            Vector3 r3 = new Vector3(transform.position.x + 9, 0, transform.position.z - 9);
+            r3 = r3.normalized;
+            transform.Translate(r3 * Time.deltaTime * 11);
+        }
     }
     void EndRoll()
     {

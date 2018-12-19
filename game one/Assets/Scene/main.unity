@@ -273,7 +273,7 @@ Prefab:
         type: 2}
     - target: {fileID: 1829334782490562, guid: b6e976092b5d141829eb211deae208a2, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829334782490562, guid: b6e976092b5d141829eb211deae208a2, type: 2}
       propertyPath: m_StaticEditorFlags
