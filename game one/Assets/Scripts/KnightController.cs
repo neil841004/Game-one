@@ -134,7 +134,7 @@ public class KnightController : MonoBehaviour
     void Attack()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        //combo1
+        // combo1
         if (Input.GetKeyDown(KeyCode.X) && combo == 0)
         {
             attack = true;
@@ -150,8 +150,6 @@ public class KnightController : MonoBehaviour
         if (info.IsName("frontattack2") && info.normalizedTime < 0.9f)
         {
             Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 18);
-            // a3 = a3.normalized;
-            // transform.Translate(a3 * Time.deltaTime * 20);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 2;
@@ -159,45 +157,66 @@ public class KnightController : MonoBehaviour
         if (info.IsName("backattack2") && info.normalizedTime < 0.9f)
         {
             Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 18);
-            // a3 = a3.normalized;
-            // transform.Translate(a3 * Time.deltaTime * 20);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 2;
         }
         if (info.IsName("rightattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x+12, transform.position.y, transform.position.z);
-            // a3 = a3.normalized;
-            // transform.Translate(a3 * Time.deltaTime * 20);
+            Vector3 a3 = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 2;
         }
         if (info.IsName("leftattack2") && info.normalizedTime < 0.9f)
         {
-            Vector3 a3 = new Vector3(transform.position.x-12, transform.position.y, transform.position.z);
-            // a3 = a3.normalized;
-            // transform.Translate(a3 * Time.deltaTime * 20);
+            Vector3 a3 = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
             smooth -= 0.3f;
             combo = 2;
         }
-        //combo3
-        // if (Input.GetKeyDown(KeyCode.X) && combo == 2 && info.normalizedTime > 0.5f)
-        // {
-        //     combo = 3;
-        //     smooth = 2.2f;
-        // }
-        // if (info.IsName("frontattack3"))
-        // {
-        //     Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 14);
-        //     // a3 = a3.normalized;
-        //     // transform.Translate(a3 * Time.deltaTime * 20);
-        //     transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
-        //     smooth -= 0.2f;
-        //     combo = 3;
-        // }
+        // combo3
+        if (Input.GetKeyDown(KeyCode.X) && combo == 2 && info.normalizedTime > 0.4f && (info.IsName("frontattack2") || (info.IsName("leftattack2") || (info.IsName("rightattack2") || (info.IsName("backattack2"))))))
+        {
+            combo = 3;
+            smooth = 2f;
+        }
+        if (info.IsName("frontattack3") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z - 14);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 3;
+        }
+        if (info.IsName("backattack3") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x, transform.position.y, transform.position.z + 14);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 3;
+        }
+        if (info.IsName("rightattack3") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 3;
+        }
+        if (info.IsName("leftattack3") && info.normalizedTime < 0.9f)
+        {
+            Vector3 a3 = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, a3, smooth * Time.deltaTime);
+            smooth -= 0.3f;
+            combo = 3;
+        }
+        if (info.normalizedTime < 0.4f && (info.IsName("frontattack") || info.IsName("leftattack") || info.IsName("rightattack") || info.IsName("backattack")||info.IsName("frontattack2") || info.IsName("leftattack2") || info.IsName("rightattack2") || info.IsName("backattack2")||info.IsName("frontattack3") || info.IsName("leftattack3") || info.IsName("rightattack3") || info.IsName("backattack3")))
+        {
+            safeTime = true;
+        }
+        if (info.normalizedTime >= 0.4f && (info.IsName("frontattack") || info.IsName("leftattack") || info.IsName("rightattack") || info.IsName("backattack")||info.IsName("frontattack2") || info.IsName("leftattack2") || info.IsName("rightattack2") || info.IsName("backattack2")||info.IsName("frontattack3") || info.IsName("leftattack3") || info.IsName("rightattack3") || info.IsName("backattack3")))
+        {
+            safeTime = false;
+        }
     }
     void EndAttack()
     {
@@ -387,10 +406,10 @@ public class KnightController : MonoBehaviour
     }
     void StartSafe()
     {
-        safeTime = true;
+        // safeTime = true;
     }
     void EndSafe()
     {
-        safeTime = false;
+        // safeTime = false;
     }
 }
